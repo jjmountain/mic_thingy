@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 ruby '2.5.3'
 
 gem 'bootsnap', require: false
+gem 'carrierwave', '~> 1.2'
+gem 'cloudinary', '~> 1.9.1'
 gem 'devise'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'jbuilder', '~> 2.0'
