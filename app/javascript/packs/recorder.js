@@ -5,7 +5,6 @@
 var record = document.querySelector('.record');
 var stop = document.querySelector('.stop');
 var soundClips = document.querySelector('.sound-clips');
-var canvas = document.querySelector('.visualizer');
 var mainSection = document.querySelector('.main-controls');
 
 // disable stop button while not recording
@@ -26,8 +25,6 @@ if (navigator.mediaDevices.getUserMedia) {
 
   var onSuccess = function(stream) {
     var mediaRecorder = new MediaRecorder(stream);
-
-    visualize(stream);
 
     record.onclick = function() {
       mediaRecorder.start();
@@ -114,17 +111,3 @@ if (navigator.mediaDevices.getUserMedia) {
 } else {
    console.log('getUserMedia not supported on your browser!');
 }
-
-function visualize(stream) {
-  var source = audioCtx.createMediaStreamSource(stream);
-
-  var analyser = audioCtx.createAnalyser();
-  analyser.fftSize = 2048;
-  var bufferLength = analyser.frequencyBinCount;
-  var dataArray = new Uint8Array(bufferLength);
-
-  source.connect(analyser);
-  //analyser.connect(audioCtx.destination);
-
-  draw()
-
