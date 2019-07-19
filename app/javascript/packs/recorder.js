@@ -1,12 +1,15 @@
 //= require rails-ujs
 //= require_tree .
 // set up basic variables for app
+import WaveSurfer from 'wavesurfer.js';
 
 var record = document.querySelector('.record');
 var stop = document.querySelector('.stop');
-var soundClips = document.querySelector('.sound-clips');
-var mainSection = document.querySelector('.main-controls');
+var soundClips = document.querySelector('#sound-clips');
+var waveform = document.querySelector('#waveform')
 
+// var mainSection = document.querySelector('.main-controls');
+// var waveform_index = 1;
 // disable stop button while not recording
 
 stop.disabled = true;
@@ -32,6 +35,10 @@ if (navigator.mediaDevices.getUserMedia) {
       console.log("recorder started");
       record.style.background = "red";
 
+      
+      var clipLabel = document.createElement('p');
+      // var audio = document.createElement('audio');
+
       stop.disabled = false;
       record.disabled = true;
     }
@@ -45,57 +52,84 @@ if (navigator.mediaDevices.getUserMedia) {
       // mediaRecorder.requestData();
 
       stop.disabled = true;
-      record.disabled = false;
+      record.disabled = true;
     }
 
     mediaRecorder.onstop = function(e) {
       console.log("data available after MediaRecorder.stop() called.");
 
-      var clipName = prompt('Enter a name for your sound clip?','My unnamed clip');
-      console.log(clipName);
-      var clipContainer = document.createElement('article');
-      var clipLabel = document.createElement('p');
-      var audio = document.createElement('audio');
+      // var clipName = prompt('Enter a name for your sound clip?','My unnamed clip');
+      // console.log(clipName);
+
+      // create a clip container to store wavesurfer object and delete button
+      // var clipContainer = document.createElement('div');
+      // clipContainer.id = 'waveform';
+      // increment waveform_index for the next one
+      // waveform_index ++;
+      // create a delete button
       var deleteButton = document.createElement('button');
-     
-      clipContainer.classList.add('clip');
-      audio.setAttribute('controls', '');
+      deleteButton.classList.add('delete');
       deleteButton.textContent = 'Delete';
       deleteButton.className = 'delete';
+     
+      // append the delete button to the clip container
+      waveform.appendChild(deleteButton);
+      // append clipContainer to the dom in soundclips
+      // soundClips.appendChild(clipContainer);
 
-      if(clipName === null) {
-        clipLabel.textContent = 'My unnamed clip';
-      } else {
-        clipLabel.textContent = clipName;
-      }
+      // var currentContainer = `#waveform-${waveform_index}`
+      // create the wavesurfer object in the clip-container
+      var wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: 'violet',
+        progressColor: 'purple'
+    });
 
-      clipContainer.appendChild(audio);
-      clipContainer.appendChild(clipLabel);
-      clipContainer.appendChild(deleteButton);
-      soundClips.appendChild(clipContainer);
+  
 
-      audio.controls = true;
+
+      // if(clipName === null) {
+      //   clipLabel.textContent = 'My unnamed clip';
+      // } else {
+      //   clipLabel.textContent = clipName;
+      // }
+
+      // clipContainer.appendChild(audio);
+
+      // audio.controls = true;
       var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
       chunks = [];
       var audioURL = window.URL.createObjectURL(blob);
-      audio.src = audioURL;
+      // audio.src = audioURL;
       console.log("recorder stopped");
 
+      waveform.appendChild(deleteButton);
+
+
+      wavesurfer.load(audioURL);
+
       deleteButton.onclick = function(e) {
-        evtTgt = e.target;
-        evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode);
+        console.log(e.target.parentNode)
+        e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+        record.disabled = false;
+        var clipContainer = document.createElement('div');
+        clipContainer.id = 'waveform';
+        soundClips.appendChild(clipContainer);
+        waveform = document.querySelector('#waveform');
       }
 
-      clipLabel.onclick = function() {
-        var existingName = clipLabel.textContent;
-        var newClipName = prompt('Enter a new name for your sound clip?');
-        if(newClipName === null) {
-          clipLabel.textContent = existingName;
-        } else {
-          clipLabel.textContent = newClipName;
-        }
-      }
+      // clipLabel.onclick = function() {
+      //   var existingName = clipLabel.textContent;
+      //   var newClipName = prompt('Enter a new name for your sound clip?');
+      //   if(newClipName === null) {
+      //     clipLabel.textContent = existingName;
+      //   } else {
+      //     clipLabel.textContent = newClipName;
+      //   }
+      // }
     }
+
+    // mediaRecorder.onstop.bind(waveform_index)
 
     mediaRecorder.ondataavailable = function(e) {
       chunks.push(e.data);
