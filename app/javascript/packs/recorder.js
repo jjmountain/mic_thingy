@@ -5,6 +5,10 @@ import WaveSurfer from 'wavesurfer.js';
 
 var record = document.querySelector('.record');
 var stop = document.querySelector('.stop');
+var deleteButton = document.querySelector('.delete');
+
+deleteButton.disabled = true;
+
 var soundClips = document.querySelector('#sound-clips');
 var waveform = document.querySelector('#waveform')
 
@@ -14,9 +18,9 @@ var waveform = document.querySelector('#waveform')
 
 stop.disabled = true;
 
-// visualiser setup - create web audio api context and canvas
+let recording = false;
 
-var audioCtx = new (window.AudioContext || webkitAudioContext)();
+// visualiser setup - create web audio api context and canvas
 
 //main block for doing the audio recording
 
@@ -33,12 +37,19 @@ if (navigator.mediaDevices.getUserMedia) {
       mediaRecorder.start();
       console.log(mediaRecorder.state);
       console.log("recorder started");
-      record.style.background = "red";
 
-      
-      var clipLabel = document.createElement('p');
-      // var audio = document.createElement('audio');
+      let recording = !recording;
+      let pauseRecordingIcon = '<i class="fas fa-pause"></i>'
+        if (recording) {
+          record.innerHTML = pauseRecordingIcon; 
+        } else {
+          record.innerHTML = '<i class="fas fa-microphone"></i>';
+        };
 
+
+
+    
+      record.classList.add('playing');
       stop.disabled = false;
       record.disabled = true;
     }
@@ -51,6 +62,12 @@ if (navigator.mediaDevices.getUserMedia) {
       record.style.color = "";
       // mediaRecorder.requestData();
 
+      recording = false;
+      if (recording) {
+        record.innerHTML = pauseRecordingIcon; 
+      } else {
+        record.innerHTML = '<i class="fas fa-microphone"></i>';
+      };
       stop.disabled = true;
       record.disabled = true;
     }
@@ -67,13 +84,36 @@ if (navigator.mediaDevices.getUserMedia) {
       // increment waveform_index for the next one
       // waveform_index ++;
       // create a delete button
-      var deleteButton = document.createElement('button');
-      deleteButton.classList.add('delete');
-      deleteButton.textContent = 'Delete';
-      deleteButton.className = 'delete';
-     
+
+      let playing = false;
+
+      var buttonControls = document.createElement('div');
+      buttonControls.classList.add('button-controls');
+
+      var playButton = document.createElement('button');
+      playButton.classList.add('play');
+      let playIcon = '<i class="fas fa-play"></i>'
+      let pauseIcon = '<i class="fas fa-pause"></i>'
+      playButton.innerHTML = playIcon;
+
+
+      var rewindButton = document.createElement('button');
+      rewindButton.classList.add('rewind');
+      let backwardIcon = '<i class="fas fa-backward"></i>'
+      rewindButton.innerHTML = backwardIcon;
+
+      var forwardButton = document.createElement('button');
+      forwardButton.classList.add('forward');
+      let forwardIcon = '<i class="fas fa-forward"></i>'
+      forwardButton.innerHTML = forwardIcon;
+
       // append the delete button to the clip container
-      waveform.appendChild(deleteButton);
+      buttonControls.appendChild(rewindButton);
+      buttonControls.appendChild(playButton);
+      buttonControls.appendChild(forwardButton);
+
+      deleteButton.disabled = false;
+
       // append clipContainer to the dom in soundclips
       // soundClips.appendChild(clipContainer);
 
@@ -81,12 +121,10 @@ if (navigator.mediaDevices.getUserMedia) {
       // create the wavesurfer object in the clip-container
       var wavesurfer = WaveSurfer.create({
         container: '#waveform',
-        waveColor: 'violet',
-        progressColor: 'purple'
+        waveColor: '#5CD1B7',
+        progressColor: '#3c8977',
+        skipLength: 5.0
     });
-
-  
-
 
       // if(clipName === null) {
       //   clipLabel.textContent = 'My unnamed clip';
@@ -102,15 +140,39 @@ if (navigator.mediaDevices.getUserMedia) {
       var audioURL = window.URL.createObjectURL(blob);
       // audio.src = audioURL;
       console.log("recorder stopped");
-
-      waveform.appendChild(deleteButton);
-
+      waveform.appendChild(buttonControls);
 
       wavesurfer.load(audioURL);
 
+
+
+      playButton.onclick = function(e) {
+        playing = !playing;
+        if (playing) {
+          playButton.innerHTML = pauseIcon; 
+        } else {
+          playButton.innerHTML = playIcon;
+        };
+        wavesurfer.playPause();
+      }
+
+      wavesurfer.on('finish', function() {
+        playButton.innerHTML = playIcon;
+        playing = false;
+      })
+
+      rewindButton.onclick = function(e) {
+        wavesurfer.skipBackward();
+      }
+
+      forwardButton.onclick = function(e) {
+        wavesurfer.skipForward();
+      }
+
       deleteButton.onclick = function(e) {
-        console.log(e.target.parentNode)
-        e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+        // console.log(e.target.parentNode)
+        // e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+        waveform.remove();
         record.disabled = false;
         var clipContainer = document.createElement('div');
         clipContainer.id = 'waveform';
