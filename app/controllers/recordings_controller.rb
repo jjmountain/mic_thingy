@@ -9,6 +9,9 @@ class RecordingsController < ApplicationController
     authorize @recording
   end
 
+  def show
+  end
+
   def create
     @recording = Recording.new(recording_params)
     @recording.user_id = current_user.id
@@ -19,9 +22,12 @@ class RecordingsController < ApplicationController
     end
   end
 
+  def update
+  end
+
   private
 
   def recording_params
-    params.require(:recording).permit(:url, :user_id)
+    params.require(:recording).permit(:url, :user_id, :duration, :title)
   end
 end

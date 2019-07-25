@@ -138,8 +138,11 @@ function createDownloadLink(blob) {
 	link.innerHTML = "Save to disk";
 
 	//add the new audio element to li
-	li.appendChild(au);
-	
+  li.appendChild(au);
+  let trackDuration = 0.0
+  au.onloadedmetadata = function(){
+    trackDuration = au.duration
+  };
 	//add the filename to the li
 	// li.appendChild(document.createTextNode(filename+".wav "))
 
@@ -191,6 +194,8 @@ function createDownloadLink(blob) {
     // console.log(formData.get('authenticity_token'));
 
     formData.append('recording[url]', blob, `${Date}`);
+    formData.append('recording[duration]', trackDuration );
+
 
     var request = new XMLHttpRequest();
     request.open("POST", '/recordings');
