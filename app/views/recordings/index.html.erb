@@ -1,19 +1,30 @@
 <div class="wrapper">
   <div class='container'>
-    <h1>Recordings for <%= current_user.email%></h1>
+    <h1>Recordings</h1>
     <% unless @recordings.nil?%>
       <% @recordings.each do |recording| %>
-        <div class='row justify-content-center'>
+        <div class='row' style="margin: 4rem 4rem;">
           <div class="col-6">
             <div class="waveform" id="recording-<%=recording.id%>" data-src-url="<%= recording.url %>">
-              <div class="recording-title" contenteditable="true">
-                <%= recording.title.nil? ? "Untitled Recording" : recording.title %>
+              <div style="display: flex; justify-content: space-between;">
+                <div class="recording-title" contenteditable="true">
+                  <%= recording.title.nil? ? "Untitled Recording" : recording.title %>
+                </div>  
+                <input type='button' class='btn btn-primary' onclick='saveEdits(this.parentNode.id)' value='save' />
+                <input type='button' class='btn btn-danger' onclick='saveEdits(this.parentNode.id)' value='delete' />
+
               </div>
-              <input type='button' onclick='saveEdits(this.parentNode.id)' value='save' />
-              <div>
+              <div style="color: grey;">
                 <%= recording.created_at.strftime("%b %e, %l:%M %p") %>
+                <form action="/recordings" method="post" name="uploadform">
+                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+                </form>
               </div>
             </div>
+          </div>
+          <div class="col-3 d-flex align-items-end">
+                            <input type='button' class='btn btn-danger' onclick='saveEdits(this.parentNode.id)' value='play' />
+
           </div>
         </div>
       <% end %>
@@ -21,9 +32,7 @@
   </div>
 </div>
 
-<form enctype="multipart/form-data" name="titleform">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-</form>
+
 
   <script src="https://unpkg.com/wavesurfer.js"></script>
 
@@ -40,14 +49,14 @@
   });
 
   function saveEdits(divId) {
-    const form = document.forms.namedItem("titleform");
+    // const form = document.forms.namedItem("titleform");
     const editElem = document.getElementById(divId);
-    const userVersion = editElem.firstChild.innerHTML;
-    console.log(userVersion);
-    const formData = new FormData(form);
+    const userVersion = editElem.firstElementChild.innerHTML.trim();
+    const formData = new FormData();
     formData.append('recording[title]', userVersion);
     const request = new XMLHttpRequest();
     let idNum = divId.match(/[0-9]+/)[0];
+    console.log(idNum);
     request.open("PATCH", `/recordings/${idNum}`);
     request.send(formData);
   }

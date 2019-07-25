@@ -23,6 +23,7 @@ class RecordingsController < ApplicationController
   end
 
   def update
+    
   end
 
   private
