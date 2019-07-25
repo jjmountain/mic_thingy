@@ -5,6 +5,10 @@ class RecordingPolicy < ApplicationPolicy
     end
   end
 
+  def new?
+    true
+  end
+
   def update?
     record.user == user
   end

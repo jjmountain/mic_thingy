@@ -90,7 +90,6 @@ function pauseRecording(){
 		//resume
 		rec.record()
 		pauseButton.innerHTML="Pause";
-
 	}
 }
 
@@ -115,9 +114,13 @@ function stopRecording() {
 	rec.exportWAV(createDownloadLink);
 }
 
+
+
 function createDownloadLink(blob) {
-	
-	var url = URL.createObjectURL(blob);
+  const list = document.getElementById('recordingsList');
+
+  var url = URL.createObjectURL(blob);
+  console.log(url)
 	var au = document.createElement('audio');
 	var li = document.createElement('li');
 	var link = document.createElement('a');
@@ -138,29 +141,75 @@ function createDownloadLink(blob) {
 	li.appendChild(au);
 	
 	//add the filename to the li
-	li.appendChild(document.createTextNode(filename+".wav "))
+	// li.appendChild(document.createTextNode(filename+".wav "))
 
 	//add the save to disk link to li
 	li.appendChild(link);
 	
 	//upload link
-	var upload = document.createElement('a');
-	upload.href="#";
-	upload.innerHTML = "Upload";
-	upload.addEventListener("click", function(event){
-		  var xhr=new XMLHttpRequest();
-		  xhr.onload=function(e) {
-		      if(this.readyState === 4) {
-		          console.log("Server returned: ",e.target.responseText);
-		      }
-		  };
-		  var fd=new FormData();
-		  fd.append("audio_data",blob, filename);
-		  xhr.open("POST","upload.php",true);
-		  xhr.send(fd);
-	})
-	li.appendChild(document.createTextNode (" "))//add a space in between
-	li.appendChild(upload)//add the upload link to li
+	// var upload = document.createElement('a');
+	// upload.href="#";
+	// upload.innerHTML = "Upload";
+	// upload.addEventListener("click", function(event){
+	// 	  var xhr=new XMLHttpRequest();
+	// 	  xhr.onload=function(e) {
+	// 	      if(this.readyState === 4) {
+	// 	          console.log("Server returned: ",e.target.responseText);
+	// 	      }
+	// 	  };
+	// 	  var fd=new FormData();
+	// 	  fd.append("audio_data",blob, filename);
+	// 	  xhr.open("POST","upload.php",true);
+	// 	  xhr.send(fd);
+	// })
+	// li.appendChild(document.createTextNode (" "))//add a space in between
+  // li.appendChild(upload)//add the upload link to li
+
+  const submitButton = document.createElement('button');
+  submitButton.innerText = 'Submit';
+  submitButton.classList.add('btn')
+  submitButton.classList.add('btn-primary')
+  // submitButton.addEventListener('click', function () {
+  //   submitButton.style = 'display:none'
+  //   document.querySelector('#loading-spinner').style = 'display:flex;justify-content:center;'
+  // })
+  const nextLi = document.createElement('li');
+
+  nextLi.appendChild(submitButton);
+  list.appendChild(nextLi);
+
+  list.appendChild(li);
+
+  submitButton.addEventListener('click', (event) => {
+    // event.preventDefault();
+    const form = document.forms.namedItem("uploadform")
+    oOutput = document.querySelector('#output')
+    // console.log(form);
+    const formData = new FormData(form);
+    // console.log(formData)
+
+    // console.log(formData.get('authenticity_token'));
+
+    formData.append('recording[url]', blob, `${Date}`);
+
+    var request = new XMLHttpRequest();
+    request.open("POST", '/recordings');
+    request.send(formData);
+
+    request.onload = function(oEvent) {
+      if (request.status == 200) {
+        oOutput.innerHTML = "Uploaded!";
+      } else {
+        oOutput.innerHTML = "Error " + request.status + " occurred when trying to upload your file.<br \/>";
+      }
+    };
+  
+
+    // request.onload = (res) => {
+    //   console.log(res);
+    //   window.location = res.currentTarget.responseURL;
+    // };
+  });
 
 	//add the li element to the ol
   recordingsList.appendChild(li);

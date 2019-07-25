@@ -1,23 +1,30 @@
-    <div class="wrapper">
-
-      <header>
-      </header>
-
-      <section class="main-controls">
-      
-        <div id="record-buttons">
-          <button id="pauseButton"><i class="fas fa-times"></i></button>
-          <button id="recordButton"><i class="fas fa-microphone"></i></button>
-          <button id="stopButton"><i class="fas fa-stop"></i></button>
+<div class="wrapper">
+  <div class='container'>
+    <h1>Recordings for <%= current_user.email%></h1>
+    <% unless @recordings.nil?%>
+      <% @recordings.each do |recording| %>
+        <div class='row justify-content-center'>
+          <div class="col-6">   
+            Recording on <%= recording.created_at.strftime("%b %e, %l:%M %p") %>
+            <div class="waveform" id="recording-<%=recording.id%>" data-src-url="<%= recording.url %>">
+            </div>
+          </div>
         </div>
-      </section>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+  <script src="https://unpkg.com/wavesurfer.js"></script>
 
-      <section id="recordingsList">
-        <div id ='waveform'>
-        </div>
-      </section>
-
-    </div>
-
-<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
-
+<script>
+  recordingDivs = document.querySelectorAll('.waveform')
+  recordingDivs.forEach((div) => {
+    let wavesurfer = WaveSurfer.create({
+    container: `#${div.id}`,
+    waveColor: 'violet',
+    progressColor: 'purple'
+});
+  let wavesurferUrl = div.getAttribute('data-src-url');
+  wavesurfer.load(wavesurferUrl);
+  });
+</script>
