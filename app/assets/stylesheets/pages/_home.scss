@@ -1,1 +1,64 @@
 // Specific CSS for your home-page
+
+$skewDeg: -3deg;
+$offset: 70px;
+
+.hero {
+  height: 70vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  display: flex; // Flex to center the hero text
+  align-items: center; // Centering..
+  justify-content: center; // More centering...
+  text-align: center; // Almost done centering....
+}
+
+.bg-img-wrapper {
+  transform: skewY($skewDeg);
+  position: absolute;
+  top: -$offset;
+  bottom: $offset;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.bg-img {
+  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset-url('phone_background.png');
+  background-size: cover;
+  position: absolute;
+  top: $offset;
+  bottom: -$offset;
+  right: 0;
+  left: 0;
+  transform: skewY(-$skewDeg); // Skew the opposite amount of the parent to make the image straight again
+  background-attachment: fixed;
+}
+
+
+.home-features {
+
+}
+
+.slogan-container {
+  z-index: 10;
+  width: 47rem;
+  height: 12rem;
+  background-image: asset-url('waveform.png');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 25%;
+}
+
+.slogan {
+  color: whitesmoke;
+  text-align: center;
+  h2 {
+    font-family: $hero-font;
+    font-size: 2rem;
+  }
+}

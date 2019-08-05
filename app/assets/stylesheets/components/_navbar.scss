@@ -1,12 +1,10 @@
-.navbar-lewagon {
-  justify-content: space-between;
-  background: white;
+.logo {
+  background-image: asset-url('speakitt_logo.png');
+  background-size: cover;
+  height: 50px;
+  width: 250px;
 }
 
-.navbar-lewagon .navbar-collapse {
-  flex-grow: 0;
-}
-
-.navbar-lewagon .navbar-brand img {
-  width: 40px;
-}
+// .navbar-extra-styles {
+//   background-color: transparent;
+// }

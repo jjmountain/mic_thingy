@@ -1,7 +1,7 @@
 <div class="wrapper">
   <div class='container'>
     <h1>Recordings</h1>
-    <% unless @recordings.nil?%>
+    <% unless @recordings.empty?%>
       <% @recordings.each do |recording| %>
         <div class='row' style="margin: 4rem 4rem;">
           <div class="col-6">
@@ -12,13 +12,9 @@
                 </div>  
                 <input type='button' class='btn btn-primary' onclick='saveEdits(this.parentNode.id)' value='save' />
                 <input type='button' class='btn btn-danger' onclick='saveEdits(this.parentNode.id)' value='delete' />
-
               </div>
               <div style="color: grey;">
                 <%= recording.created_at.strftime("%b %e, %l:%M %p") %>
-                <form action="/recordings" method="post" name="uploadform">
-                  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-                </form>
               </div>
             </div>
           </div>
@@ -49,7 +45,6 @@
   });
 
   function saveEdits(divId) {
-    // const form = document.forms.namedItem("titleform");
     const editElem = document.getElementById(divId);
     const userVersion = editElem.firstElementChild.innerHTML.trim();
     const formData = new FormData();
