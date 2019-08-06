@@ -4,14 +4,18 @@ $skewDeg: -3deg;
 $offset: 70px;
 
 .hero {
-  height: 70vh;
+  height: 60vh;
   width: 100vw;
   position: relative;
   overflow: hidden;
-  display: flex; // Flex to center the hero text
+  display: flex;
   align-items: center; // Centering..
   justify-content: center; // More centering...
   text-align: center; // Almost done centering....
+}
+
+.home-section {
+  
 }
 
 .bg-img-wrapper {
@@ -26,7 +30,10 @@ $offset: 70px;
 
 .bg-img {
   background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset-url('phone_background.png');
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-color: #101114;
   position: absolute;
   top: $offset;
   bottom: -$offset;
@@ -36,9 +43,16 @@ $offset: 70px;
   background-attachment: fixed;
 }
 
+.content {
+}
+.feature {
+margin: 4rem 4rem;
+}
 
-.home-features {
-
+#record-your-students {
+  background-image: asset-url('talking-into-smartphone.png');
+  background-size: contain;
+  height: 100px;
 }
 
 .slogan-container {
