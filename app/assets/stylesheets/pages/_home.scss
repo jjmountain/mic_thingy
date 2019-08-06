@@ -25,15 +25,17 @@ $offset: 70px;
   bottom: $offset;
   right: 0;
   left: 0;
+  min-width: 100%;
+  min-height: 100%;
   overflow: hidden;
 }
 
 .bg-img {
-  background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset-url('phone_background.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: left top;
-  background-color: #101114;
+  background: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), asset-url('phone_background.png') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   position: absolute;
   top: $offset;
   bottom: -$offset;
@@ -43,8 +45,12 @@ $offset: 70px;
   background-attachment: fixed;
 }
 
-.content {
+.card-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
 }
+
 .feature {
 margin: 4rem 4rem;
 }
