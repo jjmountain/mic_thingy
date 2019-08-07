@@ -99,14 +99,3 @@ margin: 4rem 4rem;
  @keyframes focus-in-expand{0%{letter-spacing:-.5em;filter:blur(12px);opacity:0}100%{filter:blur(0);opacity:1}}
  @keyframes scale-in-ver-center{0%{transform:scaleY(0);opacity:1}100%{transform:scaleY(1);opacity:1}}
 
-footer {
-  height: 100px;
-  width: 100vw;
-  background-color: #5a5151;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  h4, h5 {
-    color: white;
-  }
-}

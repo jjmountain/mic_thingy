@@ -1,27 +1,25 @@
     <div class="wrapper">
+    <div class="content">
+        <section class="main-controls">
+        
+          <div id="record-buttons">
+            <button id="pauseButton"><i class="fas fa-times"></i></button>
+            <button id="recordButton"><i class="fas fa-microphone"></i></button>
+            <button id="stopButton"><i class="fas fa-stop"></i></button>
+          </div>
+        </section>
 
-      <header>
-      </header>
+        <section id="recordingsList">
 
-      <section class="main-controls">
-      
-        <div id="record-buttons">
-          <button id="pauseButton"><i class="fas fa-times"></i></button>
-          <button id="recordButton"><i class="fas fa-microphone"></i></button>
-          <button id="stopButton"><i class="fas fa-stop"></i></button>
-        </div>
-      </section>
+        </section>
 
-      <section id="recordingsList">
+        <form enctype="multipart/form-data" action="/recordings" method="post" name="uploadform">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        </form>
 
-      </section>
-
+        <div id='output'></div>
+      </div>
     </div>
 
 <script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
 
-<form enctype="multipart/form-data" action="/recordings" method="post" name="uploadform">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-</form>
-
-<div id='output'></div>

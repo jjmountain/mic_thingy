@@ -1,6 +1,9 @@
 <div class="wrapper">
-  <div class='container'>
-    <h1>Recordings</h1>
+  <div class='content'>
+    <div class="recordings-title-wrapper">
+      <h1>Recordings</h1>
+      <%= paginate @recordings, remote: true %>
+    </div>
     <% unless @recordings.empty?%>
       <% @recordings.each do |recording| %>
         <div class='row' style="margin: 4rem 4rem;">
@@ -24,6 +27,7 @@
           </div>
         </div>
       <% end %>
+      <%= paginate(@recordings) %>
     <% end %>
   </div>
 </div>
@@ -37,7 +41,7 @@
   recordingDivs.forEach((div) => {
     let wavesurfer = WaveSurfer.create({
     container: `#${div.id}`,
-    waveColor: 'violet',
+    waveColor: '#ff5757',
     progressColor: 'purple'
 });
   let wavesurferUrl = div.getAttribute('data-src-url');

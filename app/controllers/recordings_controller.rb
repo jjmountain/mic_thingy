@@ -1,7 +1,7 @@
 class RecordingsController < ApplicationController
 
   def index
-    @recordings = policy_scope(Recording)
+    @recordings = policy_scope(Recording).order(:created_at).page(params[:page]).per(5)
   end
 
   def new
