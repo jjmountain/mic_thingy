@@ -5,6 +5,50 @@
   width: 250px;
 }
 
+.navbar a {
+  color: white;
+}
+
+.navbar li {
+  margin-right: 2rem;
+}
+
+.navbar {
+  button {
+    background-color: transparent;
+    border-radius: 20px;
+    border: 1px solid #e6e6e6;
+    color: #e6e6e6;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    transition: background-color .5s ease-out;
+    width: 100px;
+    height: 40px;
+  }
+
+  button:hover {
+    background-color: #5a5151;
+  }
+
+  button:active {
+    line-height: 0;
+  }
+}
+
+#sign-up {
+  background-color: #6E2B2B;
+  border: none;
+}
+
+#sign-up:hover{
+  background-color: #a22626;
+}
+
+#sign-up:active{
+  line-height: 0;
+
+}
+
 // .navbar-extra-styles {
 //   background-color: transparent;
 // }

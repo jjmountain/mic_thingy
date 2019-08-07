@@ -1,3 +1,21 @@
 <nav class="navbar navbar-dark fixed-top" style="background-color: transparent; padding: 2rem 4.5rem;">
   <a class="logo" href="/">  </a>
+  <ul class="nav d-flex justify-content-end align-items-baseline">
+  <% unless user_signed_in? %>
+    <li class="nav-item">
+      <%= link_to new_user_session_path do %><button class="nav-link">Log in</button><% end %>
+    </li>
+    <li class="nav-item">
+      <%= link_to new_user_registration_path do %><button class="nav-link" id="sign-up">Sign up</button><% end %>
+    </li>
+  <% else %>
+    <li class="nav-item"><a class="nav-link">
+      <%= link_to recordings_path do %>My Recordings<% end %></a>
+    </li>
+     <li class="nav-item"><button class="nav-link">
+      <%= link_to destroy_user_session_path, method: "delete" do %>Sign Out<% end %></button>
+    </li>
+  <% end %>
+</ul>
+</ul>
 </nav>
