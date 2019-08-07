@@ -10,8 +10,8 @@
                 <div class="recording-title" contenteditable="true">
                   <%= recording.title.nil? ? "Untitled Recording" : recording.title %>
                 </div>  
-                <input type='button' class='btn btn-primary' onclick='saveEdits(this.parentNode.id)' value='save' />
-                <input type='button' class='btn btn-danger' onclick='saveEdits(this.parentNode.id)' value='delete' />
+                <input type='button' class='btn btn-primary' onclick='saveEdits(this.parentNode.parentNode.id)' value='save' />
+                <input type='button' class='btn btn-danger' onclick='saveEdits(this.parentNode.parentNode.id)' value='delete' />
               </div>
               <div style="color: grey;">
                 <%= recording.created_at.strftime("%b %e, %l:%M %p") %>
@@ -45,8 +45,10 @@
   });
 
   function saveEdits(divId) {
+    console.log(divId)
     const editElem = document.getElementById(divId);
-    const userVersion = editElem.firstElementChild.innerHTML.trim();
+    const userVersion = editElem.firstElementChild.firstElementChild.innerHTML.trim();
+    console.log(userVersion)
     const formData = new FormData();
     formData.append('recording[title]', userVersion);
     const request = new XMLHttpRequest();

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark fixed-top" style="background-color: transparent; padding: 2rem 4.5rem;">
+<nav class="navbar fixed-top <%= @transparent_navbar ? '' : 'navbar-dark-bg' %>">
   <a class="logo" href="/">  </a>
   <ul class="nav d-flex justify-content-end align-items-baseline">
   <% unless user_signed_in? %>
