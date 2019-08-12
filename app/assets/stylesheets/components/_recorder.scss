@@ -17,7 +17,14 @@
   justify-content: space-around;
   align-items: center;
   margin-top: 5rem;
+  width: 100%;
 
+}
+
+.main-controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .button-controls {
@@ -139,8 +146,13 @@ button {
   }
 }
 
-.recording {
+#recordingsList {
+  width: 100%;
+}
 
+.waveform {
+  background-color: white;
+  padding: 10px;
 }
 
 button:hover, button:focus {

@@ -6,6 +6,5 @@ class User < ApplicationRecord
   has_many :recordings, dependent: :destroy
   mount_uploader :photo, PhotoUploader
   validates :name, presence: true
-  validates :teacher, 
-             presence: {  message: 'or student? Choose one!' }
+  validates :teacher, inclusion: { in: [true, false] }
 end

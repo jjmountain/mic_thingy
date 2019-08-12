@@ -10,6 +10,8 @@ class RecordingsController < ApplicationController
   end
 
   def show
+    @recording = Recording.find(params[:id])
+    authorize @recording
   end
 
   def create
@@ -24,6 +26,14 @@ class RecordingsController < ApplicationController
 
   def update
     
+  end
+
+  def destroy
+    @recording = Recording.find(params[:id])
+    authorize @recording
+    @recording.destroy
+    @recording.url.file.delete
+    redirect_to recordings_path
   end
 
   private

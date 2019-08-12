@@ -1,17 +1,14 @@
 <div class="wrapper">
   <div class="content">
-    <div class="container">
-      <div class='row justify-content-center'>
-        <div class='col-xs-12 col-sm-6'>
           <div class='form-login'>
           <h2>Sign up</h2>
           <h5>Choose a role</h5>
           <div class="user-roles" >
-            <div id="student" onclick="setRoleToTeacher('student')">
+            <div id="student" onclick="setRoleTo('student')">
             <i class="fas fa-user-graduate"></i>
              Student
             </div>
-            <div id="teacher" onclick="setRoleToTeacher('teacher')">
+            <div id="teacher" onclick="setRoleTo('teacher')">
             <i class="fas fa-chalkboard-teacher"></i>
             Teacher
             </div>
@@ -37,8 +34,10 @@
                           required: true,
                           input_html: { autocomplete: "new-password" } %>
               <%= f.input :teacher,
-                          as: :hidden,
-                          required: true %>
+                          as: :radio_buttons,
+                          required: true,
+                          label_html: { class: 'teacher-hidden' }
+                          %>
             </div>
 
             <div class="form-actions">
@@ -60,22 +59,31 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+
 
 <script>
-  const setRoleToTeacher = (role => {
+  const setRoleTo = (role => {
     const roleDiv = document.querySelector(`#${role}`);
     const otherRole = role === 'teacher' ? 'student' : 'teacher';
     otherRoleDiv = document.querySelector(`#${otherRole}`);
     if (otherRoleDiv.classList.contains('selected')) {
       otherRoleDiv.classList.toggle('selected');
     }
-    roleDiv.classList.toggle('selected');
-    const teacherInput = document.querySelector('#user_teacher');
-    teacherInput.value = role === 'teacher'
-    console.log(teacherInput);
+    if (!roleDiv.classList.contains('selected')) {
+      roleDiv.classList.toggle('selected');
+    }
+    const teacherTrueInput = document.querySelector('#user_teacher_true');
+    const teacherFalseInput = document.querySelector('#user_teacher_false');
+    console.log(teacherFalseInput)
+
+    if (role === 'teacher') {
+      teacherTrueInput.checked = true
+      teacherFalseInput.checked = false
+    } else if (role === 'student') {
+      teacherFalseInput.checked = true
+      teacherTrueInput.checked = false
+    }
+    console.log('Teacher: ', teacherTrueInput.checked, 'Student: ', teacherFalseInput.checked);
   });
 
 </script>

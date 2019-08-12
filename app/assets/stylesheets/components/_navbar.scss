@@ -1,12 +1,12 @@
 .logo {
-  background-image: asset-url('speakitt_logo.png');
-  background-size: cover;
+  // background-image: asset-url('speakitt_logo.png');
+  // background-size: cover;
   height: 50px;
   width: 250px;
 }
 
 .navbar {
-  padding: 2rem 4.5rem;
+  padding: 2rem 2rem 1rem 2rem;
 }
 
 .navbar-transparent {
@@ -24,24 +24,24 @@
 }
 
 .navbar li {
-  margin-right: 2rem;
+    // margin-right: 2rem;
 }
 
 .navbar {
   button {
     background-color: transparent;
     border-radius: 20px;
-    border: 1px solid #e6e6e6;
+    // border: 1px solid #e6e6e6;
     color: #e6e6e6;
-    margin-left: 2rem;
-    margin-right: 2rem;
+    // margin-left: 2rem;
+    // margin-right: 2rem;
     transition: background-color .5s ease-out;
-    width: 100px;
+    // width: 100px;
     height: 40px;
   }
 
   button:hover {
-    background-color: #5a5151;
+    // background-color: #5a5151;
   }
 
   button:active {

@@ -1,5 +1,10 @@
-<nav class="navbar fixed-top <%= @transparent_navbar ? '' : 'navbar-dark-bg' %>">
-  <a class="logo" href="/">  </a>
+<nav class="navbar fixed-top <%= @transparent_navbar ? '' : 'navbar-dark-bg' %> d-flex">
+  <a class="logo" href="/"><h2><i class="fas fa-microphone" style="padding-right: 1rem;"></i> speakitt</h2></a>
+  <button class="navbar-toggler" data-toggle="collapse" type="button" data-target="#thetarget">
+      <i class="fas fa-bars"></i>
+
+  </button>
+  <div class="collapse navbar-collapse" id="thetarget">
   <ul class="nav d-flex justify-content-end align-items-baseline">
   <% unless user_signed_in? %>
     <li class="nav-item">
@@ -16,6 +21,17 @@
       <%= link_to destroy_user_session_path, method: "delete" do %>Sign Out<% end %></button>
     </li>
   <% end %>
+  <% if user_signed_in? && current_user.teacher %>
+  <li>
+    <h3 class="fas fa-chalkboard-teacher" style="color: white;"></h3>
+  </li>
+  <% elsif user_signed_in? && current_user.teacher == false %>
+  <li>
+    <i class="fas fa-user-graduate" style="color: white; font-size: 2rem;"></i>
+  </li>
+  <% end %>
 </ul>
+  </div>
+  
 </ul>
 </nav>

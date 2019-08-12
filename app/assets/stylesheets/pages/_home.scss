@@ -4,6 +4,29 @@ a, a:hover, a:active {
   text-decoration: none;
 }
 
+/* If the screen size is 600px wide or less, set the font-size of h1 to 30px */
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  h4 {
+    font-size: 15px;
+  }
+
+  h5 {
+    font-size: 10px;
+  }
+}
+
 // Specific CSS for your home-page
 
 $skewDeg: -2deg;
@@ -32,7 +55,7 @@ $offset: 70px;
   right: 0;
   left: 0;
   min-width: 100%;
-  min-height: 100%;
+  min-height: 350px;
   overflow: hidden;
 }
 
@@ -54,11 +77,8 @@ $offset: 70px;
 .card-img-top {
   width: 100%;
   height: 15vw;
+  min-height: 150px;
   object-fit: cover;
-}
-
-.feature {
-margin: 4rem 4rem;
 }
 
 #record-your-students {
@@ -72,7 +92,7 @@ margin: 4rem 4rem;
   width: 47rem;
   height: 12rem;
   background-image: asset-url('waveform.png');
-  background-size: cover;
+  background-size: contain;
   display: flex;
   align-items: center;
   justify-content: center;

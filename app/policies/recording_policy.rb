@@ -21,6 +21,14 @@ class RecordingPolicy < ApplicationPolicy
     true
   end
 
+  def delete?
+    user_is_owner_or_admin?
+  end
+
+  def show?
+    true
+  end
+
   private
 
   def user_is_owner_or_admin?
